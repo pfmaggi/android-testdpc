@@ -43,8 +43,12 @@ load("@rules_jvm_external//:specs.bzl", "maven")
 
 maven_install(
     name = "maven",
+    # for androidx.annotation 1.5.0. 1.6.0+ uses gradle module metadata
+    # which rules_jvm_external cannot resolve yet, see
+    # https://github.com/bazelbuild/rules_jvm_external/issues/909
+    version_conflict_policy = "pinned",
     artifacts = [
-        "androidx.annotation:annotation:1.3.0",
+        "androidx.annotation:annotation:1.5.0",
         "androidx.appcompat:appcompat:1.6.1",
         "androidx.appcompat:appcompat-resources:1.6.1",
         "androidx.collection:collection:1.2.0",
@@ -62,10 +66,12 @@ maven_install(
         "androidx.test:core:1.5.0",
         "androidx.test:monitor:1.6.0",
         "androidx.test:runner:1.5.0",
+        "androidx.window:window:1.2.0",
         "com.google.android.material:material:1.6.1",
         "com.google.guava:guava:31.1-android",
         "com.google.testparameterinjector:test-parameter-injector:1.15",
         "com.google.truth:truth:1.1.3",
+        "com.google.errorprone:error_prone_annotations:2.26.1",
         "junit:junit:4.13.2",
         "javax.inject:javax.inject:1",
         "org.hamcrest:java-hamcrest:2.0.0.0",
@@ -79,4 +85,20 @@ maven_install(
         "https://maven.google.com",
         "https://repo1.maven.org/maven2",
     ],
+)
+
+http_archive(
+  name = "setupdesign",
+  url = "https://android.googlesource.com/platform/external/setupdesign/+archive/4634dac90e3c09a78c2fcdfcb16ab9cb16265527.tar.gz",
+  build_file = "@//:setupdesign.BUILD",
+)
+
+http_archive(
+  name = "setupcompat",
+  url = "https://android.googlesource.com/platform/external/setupcompat/+archive/2ce41c8f4de550b5186233cec0a722dd0ffd9a84.tar.gz",
+  build_file = "@//:setupcompat.BUILD",
+  patch_cmds = [
+      "sed -i 's/Creator<>/Creator<ScreenKey>/' main/java/com/google/android/setupcompat/logging/ScreenKey.java",
+      "sed -i 's/Creator<>/Creator<SetupMetric>/' main/java/com/google/android/setupcompat/logging/SetupMetric.java",
+  ],
 )

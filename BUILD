@@ -12,42 +12,6 @@ MANIFEST_DEBUG = "src/main/AndroidManifestDebug.xml"
 
 PACKAGE = "com.afwsamples.testdpc"
 
-aar_import(
-    name = "setupdesign",
-    aar = "lib/setupdesign.aar",
-    deps = [
-        ":setupcompat",
-        ":setupcompat_partnerconfig",
-        ":setupdesign_strings",
-        artifact("com.google.android.material:material"),
-    ],
-)
-
-aar_import(
-    name = "setupcompat",
-    aar = "lib/setupcompat.aar",
-)
-
-aar_import(
-    name = "setupdesign_strings",
-    aar = "lib/strings.aar",
-)
-
-aar_import(
-    name = "setupcompat_partnerconfig",
-    aar = "lib/partnerconfig.aar",
-)
-
-android_library(
-    name = "setupdesign_deps",
-    exports = [
-        ":setupcompat",
-        ":setupcompat_partnerconfig",
-        ":setupdesign",
-        ":setupdesign_strings",
-    ],
-)
-
 android_library(
     name = "androidx_deps",
     exports = [
@@ -136,7 +100,8 @@ android_library(
         ":androidx_deps",
         ":bouncycastle_deps",
         ":guava_deps",
-        ":setupdesign_deps",
+        "@setupdesign//:setupdesign",
+        "@setupcompat//:setupcompat",
     ],
 )
 
