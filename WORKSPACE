@@ -43,10 +43,6 @@ load("@rules_jvm_external//:specs.bzl", "maven")
 
 maven_install(
     name = "maven",
-    # for androidx.annotation 1.5.0. 1.6.0+ uses gradle module metadata
-    # which rules_jvm_external cannot resolve yet, see
-    # https://github.com/bazelbuild/rules_jvm_external/issues/909
-    version_conflict_policy = "pinned",
     artifacts = [
         "androidx.annotation:annotation:1.5.0",
         "androidx.appcompat:appcompat:1.6.1",
@@ -85,20 +81,25 @@ maven_install(
         "https://maven.google.com",
         "https://repo1.maven.org/maven2",
     ],
+    # for androidx.annotation 1.5.0. 1.6.0+ uses gradle module metadata
+    # which rules_jvm_external cannot resolve yet, see
+    # https://github.com/bazelbuild/rules_jvm_external/issues/909
+    version_conflict_policy = "pinned",
 )
 
 http_archive(
-  name = "setupdesign",
-  url = "https://android.googlesource.com/platform/external/setupdesign/+archive/4634dac90e3c09a78c2fcdfcb16ab9cb16265527.tar.gz",
-  build_file = "@//:setupdesign.BUILD",
+    name = "setupdesign",
+    build_file = "@//:setupdesign.BUILD",
+    url = "https://android.googlesource.com/platform/external/setupdesign/+archive/4634dac90e3c09a78c2fcdfcb16ab9cb16265527.tar.gz",
 )
 
 http_archive(
-  name = "setupcompat",
-  url = "https://android.googlesource.com/platform/external/setupcompat/+archive/2ce41c8f4de550b5186233cec0a722dd0ffd9a84.tar.gz",
-  build_file = "@//:setupcompat.BUILD",
-  patch_cmds = [
-      "sed -i 's/Creator<>/Creator<ScreenKey>/' main/java/com/google/android/setupcompat/logging/ScreenKey.java",
-      "sed -i 's/Creator<>/Creator<SetupMetric>/' main/java/com/google/android/setupcompat/logging/SetupMetric.java",
-  ],
+    name = "setupcompat",
+    build_file = "@//:setupcompat.BUILD",
+    # Patch source code to avoid "cannot infer type arguments for Creator<T>" in 2 files
+    patch_cmds = [
+        "ed -s main/java/com/google/android/setupcompat/logging/ScreenKey.java <<<$',s/Creator<>/Creator<ScreenKey>/g\nw'",
+        "ed -s main/java/com/google/android/setupcompat/logging/SetupMetric.java <<<$',s/Creator<>/Creator<SetupMetric>/g\nw'",
+    ],
+    url = "https://android.googlesource.com/platform/external/setupcompat/+archive/2ce41c8f4de550b5186233cec0a722dd0ffd9a84.tar.gz",
 )
