@@ -1,41 +1,39 @@
-android_library(
-    name = "setupdesign",
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "srcs",
     srcs = glob([
         "main/src/**/*.java",
-    ]),
-    custom_package = "com.google.android.setupdesign",
-    exports_manifest = 1,
-    manifest = "main/AndroidManifest.xml",
-    proguard_specs = [
-        "proguard.flags",
-    ],
-    resource_files = glob(
+    ], allow_empty = True),
+)
+
+filegroup(
+    name = "manifest",
+    srcs = ["main/AndroidManifest.xml"],
+)
+
+filegroup(
+    name = "res",
+    srcs = glob(
         [
             "main/res/**",
         ],
         exclude_directories = 1,
+        allow_empty = True,
     ),
-
-    deps = [
-        ":setupdesign_strings",
-        "@setupcompat//:setupcompat",
-        "@setupcompat//:partnerconfig",
-        "@maven//:com_google_android_material_material",
-        "@maven//:androidx_annotation_annotation",
-        "@maven//:androidx_appcompat_appcompat",
-        "@maven//:androidx_recyclerview_recyclerview",
-        "@maven//:androidx_window_window",
-        "@maven//:androidx_core_core",
-        "@maven//:androidx_customview_customview",
-        "@maven//:androidx_fragment_fragment",
-        "@maven//:androidx_vectordrawable_vectordrawable",
-        "@maven//:com_google_errorprone_error_prone_annotations",
-    ],
-    visibility = ["//visibility:public"],
 )
 
-android_library(
-    name = "setupdesign_strings",
-    manifest = "strings/AndroidManifest.xml",
-    resource_files = glob(["strings/res/**"]),
+filegroup(
+    name = "proguard_flags",
+    srcs = ["proguard.flags"],
+)
+
+filegroup(
+    name = "strings_manifest",
+    srcs = ["strings/AndroidManifest.xml"],
+)
+
+filegroup(
+    name = "strings_res",
+    srcs = glob(["strings/res/**"], allow_empty = True),
 )
