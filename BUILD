@@ -49,7 +49,7 @@ android_library(
     name = "test_deps",
     exports = [
         "@maven//:org_robolectric_robolectric",
-        "@robolectric//bazel:android-all",
+        "//third_party/robolectric:android-all",
         "@maven//:org_robolectric_annotations",
         "@maven//:org_robolectric_shadows_framework",
         "@maven//:com_google_truth_truth",
@@ -97,8 +97,8 @@ android_library(
         ":androidx_deps",
         ":bouncycastle_deps",
         ":guava_deps",
-        "@setupdesign//:setupdesign",
-        "@setupcompat//:setupcompat",
+        "//third_party/setupdesign:setupdesign",
+        "//third_party/setupcompat:setupcompat",
     ],
 )
 
@@ -130,7 +130,7 @@ android_local_test(
    deps = [
        ":test_deps",
        ":testdpc_lib",
-       "@robolectric//bazel:android-all",
+        "//third_party/robolectric:android-all",
    ],
    custom_package = "com.afwsamples.testdpc.common"
 )
@@ -143,7 +143,7 @@ android_local_test(
        ":androidx_deps",
        ":test_deps",
        ":testdpc_lib",
-       "@robolectric//bazel:android-all",
+        "//third_party/robolectric:android-all",
    ],
    custom_package = "com.afwsamples.testdpc.feedback"
 )
@@ -155,7 +155,7 @@ android_local_test(
    deps = [
        ":test_deps",
        ":testdpc_lib",
-       "@robolectric//bazel:android-all",
+        "//third_party/robolectric:android-all",
    ],
    custom_package = "com.afwsamples.testdpc.policy.wifimanagement"
 )
@@ -169,7 +169,7 @@ android_local_test(
        ":test_deps",
        ":testdpc_lib",
        "@maven//:org_robolectric_robolectric",
-       "@robolectric//bazel:android-all",
+        "//third_party/robolectric:android-all",
    ],
    custom_package = "com.afwsamples.testdpc.provision"
 )

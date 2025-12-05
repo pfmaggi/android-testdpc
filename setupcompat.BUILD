@@ -1,16 +1,29 @@
-android_library(
-    name = "setupcompat",
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "srcs",
     srcs = glob([
         "main/java/**/*.java",
         "main/java/**/*.kt",
-    ], exclude = ["partnerconfig/**"]),
-    custom_package = "com.google.android.setupcompat",
-    idl_import_root = "external/setupcompat/main/aidl",
-    idl_parcelables = [
+    ], exclude = ["partnerconfig/**"], allow_empty = True),
+)
+
+filegroup(
+    name = "idl_import_root",
+    srcs = glob(["main/aidl/**"], allow_empty = True),
+)
+
+filegroup(
+    name = "idl_parcelables",
+    srcs = [
         "main/aidl/com/google/android/setupcompat/portal/NotificationComponent.aidl",
         "main/aidl/com/google/android/setupcompat/portal/ProgressServiceComponent.aidl",
     ],
-    idl_srcs = [
+)
+
+filegroup(
+    name = "idl_srcs",
+    srcs = [
         "main/aidl/com/google/android/setupcompat/ISetupCompatService.aidl",
         "main/aidl/com/google/android/setupcompat/portal/IPortalProgressCallback.aidl",
         "main/aidl/com/google/android/setupcompat/portal/IPortalProgressService.aidl",
@@ -18,41 +31,38 @@ android_library(
         "main/aidl/com/google/android/setupcompat/portal/ISetupNotificationService.aidl",
         "main/aidl/com/google/android/setupcompat/portal/v1_1/IPortalProgressCallback.aidl",
     ],
-    manifest = "AndroidManifest.xml",
-    proguard_specs = ["proguard.flags"],
-    resource_files = glob([
-        "main/res/**",
-    ]),
-    deps = [
-        ":partnerconfig",
-        "@maven//:androidx_annotation_annotation",
-        "@maven//:com_google_errorprone_error_prone_annotations",
-    ],
-    visibility = ["//visibility:public"],
 )
 
-android_library(
-    name = "partnerconfig",
+filegroup(
+    name = "manifest",
+    srcs = ["AndroidManifest.xml"],
+)
+
+filegroup(
+    name = "proguard_flags",
+    srcs = ["proguard.flags"],
+)
+
+filegroup(
+    name = "res",
+    srcs = glob([
+        "main/res/**",
+    ], allow_empty = True),
+)
+
+filegroup(
+    name = "partnerconfig_srcs",
     srcs = glob([
         "partnerconfig/java/**/*.java",
-    ]),
-    custom_package = "com.google.android.setupcompat.partnerconfig",
-    exports_manifest = 1,
-    manifest = "partnerconfig/AndroidManifest.xml",
-    deps = [
-        ":setupcompat_util",
-        "@maven//:androidx_annotation_annotation",
-        "@maven//:androidx_window_window",
-    ],
-    visibility = ["//visibility:public"],
+    ], allow_empty = True),
 )
 
-android_library(
-    name = "setupcompat_util",
+filegroup(
+    name = "partnerconfig_manifest",
+    srcs = ["partnerconfig/AndroidManifest.xml"],
+)
+
+filegroup(
+    name = "util_srcs",
     srcs = ["main/java/com/google/android/setupcompat/util/BuildCompatUtils.java"],
-    custom_package = "com.google.android.setupcompat",
-    manifest = "AndroidManifest.xml",
-    deps = [
-        "@maven//:androidx_annotation_annotation",
-    ],
 )
