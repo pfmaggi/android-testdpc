@@ -2,7 +2,7 @@ android_library(
     name = "setupdesign",
     srcs = glob([
         "main/src/**/*.java",
-    ]),
+    ], allow_empty = True),
     custom_package = "com.google.android.setupdesign",
     exports_manifest = 1,
     manifest = "main/AndroidManifest.xml",
@@ -14,6 +14,7 @@ android_library(
             "main/res/**",
         ],
         exclude_directories = 1,
+        allow_empty = True,
     ),
 
     deps = [
@@ -37,5 +38,5 @@ android_library(
 android_library(
     name = "setupdesign_strings",
     manifest = "strings/AndroidManifest.xml",
-    resource_files = glob(["strings/res/**"]),
+    resource_files = glob(["strings/res/**"], allow_empty = True),
 )

@@ -3,9 +3,8 @@ android_library(
     srcs = glob([
         "main/java/**/*.java",
         "main/java/**/*.kt",
-    ], exclude = ["partnerconfig/**"]),
+    ], exclude = ["partnerconfig/**"], allow_empty = True),
     custom_package = "com.google.android.setupcompat",
-    idl_import_root = "external/setupcompat/main/aidl",
     idl_parcelables = [
         "main/aidl/com/google/android/setupcompat/portal/NotificationComponent.aidl",
         "main/aidl/com/google/android/setupcompat/portal/ProgressServiceComponent.aidl",
@@ -22,7 +21,7 @@ android_library(
     proguard_specs = ["proguard.flags"],
     resource_files = glob([
         "main/res/**",
-    ]),
+    ], allow_empty = True),
     deps = [
         ":partnerconfig",
         "@maven//:androidx_annotation_annotation",
@@ -35,7 +34,7 @@ android_library(
     name = "partnerconfig",
     srcs = glob([
         "partnerconfig/java/**/*.java",
-    ]),
+    ], allow_empty = True),
     custom_package = "com.google.android.setupcompat.partnerconfig",
     exports_manifest = 1,
     manifest = "partnerconfig/AndroidManifest.xml",
